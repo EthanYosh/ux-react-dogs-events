@@ -5,33 +5,69 @@ import "./App.css";
 
 class App extends Component {
   state = {
+
+
     dogs: [
       {
-        name: "Scruffles",
+        name: "Mon-El",
       },
       {
-        name: "Snarf",
+        name: "Kara",
       },
       {
-        name: "Wookie",
+        name: "Mischa",
       },
     ],
+    newDoggo: "",
   };
+
+
+
+
+  changeDoggoName = (newName) => {
+    this.setState({ newDoggo: newName.target.value });
+  };
+
+
+  addDoggo = () => {
+
+    let newDog = {
+      name: this.state.newDoggo,
+    };
+
+
+    this.setState((state) => ({
+      dogs: [...state.dogs, newDog], //im using the spread operator because I only want to change 1 part (the new dog) and keep all the other parts the same when it re-renders
+      newDoggo: "",
+    }));
+  };
+
+
+
+
 
   render() {
     return (
       <div className="app">
         <Header numDogs={this.state.dogs.length} />
-        <h2>My Dogs</h2>
-        <ul className="dogList">
-          {this.state.dogs.map((dog) => (
-            <li>
+        <h2>My Doggos</h2>
+
+
+
+        <ul>
+          {this.state.dogs.map((dog, index) => (
+            <li key={index}>
               <Dog dog={dog} />
             </li>
           ))}
         </ul>
-        <br />
-        <div>Add Input and button here!</div>
+
+
+
+        <div>
+          <input className ="newDog" type="text" value={this.state.newDoggo} onChange={this.changeDoggoName} placeholder="Type new Doggo name"></input>
+          <button onClick={this.addDoggo} disabled={this.state.newDoggo === ""}>Add New Dog</button>
+        </div>
       </div>
     );
   }
